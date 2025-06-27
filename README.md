@@ -116,10 +116,6 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     4 - Apache Software License 2.0
     5 - Not open source
     Choose from 1, 2, 3, 4, 5 [1]: 1
-    Select username_type:
-    1 - username
-    2 - email
-    Choose from 1, 2 [1]: 1
     timezone [UTC]: America/Los_Angeles
     windows [n]: n
     Select an editor to use. The choices are:
@@ -152,13 +148,6 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     9 - Other SMTP
     Choose from 1, 2, 3, 4, 5, 6, 7, 8, 9 [1]: 1
     use_async [n]: n
-    use_drf [n]: y
-    Select frontend_pipeline:
-    1 - None
-    2 - Django Compressor
-    3 - Gulp
-    4 - Webpack
-    Choose from 1, 2, 3, 4 [1]: 1
     use_celery [n]: y
     use_mailpit [n]: n
     use_sentry [n]: y

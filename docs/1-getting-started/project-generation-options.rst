@@ -24,13 +24,6 @@ author_name:
 email:
     The email address you want to identify yourself in the project.
 
-username_type:
-    The type of username you want to use in the project. This can be either
-    ``username`` or ``email``. If you choose ``username``, the ``email`` field
-    will be included. If you choose ``email``, the ``username`` field will be
-    excluded. It is best practice to always include an email field, so there is
-    no option for having just the ``username`` field.
-
 domain_name:
     The domain name you plan to use for your project once it goes live.
     Note that it can be safely changed later on whenever you need to.
@@ -98,19 +91,6 @@ mail_service:
 use_async:
     Indicates whether the project should use web sockets with Uvicorn + Gunicorn.
 
-use_drf:
-    Indicates whether the project should be configured to use `Django Rest Framework`_.
-
-frontend_pipeline:
-    Select a pipeline to compile and optimise frontend assets (JS, CSS, ...):
-
-    1. None
-    2. `Django Compressor`_
-    3. `Gulp`_
-    4. `Webpack`_
-
-Both Gulp and Webpack support Bootstrap recompilation with real-time variables alteration.
-
 use_celery:
     Indicates whether the project should be configured to use Celery_.
 
@@ -160,9 +140,6 @@ debug:
 .. _devcontainer: https://containers.dev/
 
 .. _PostgreSQL: https://www.postgresql.org/docs/
-
-.. _Gulp: https://github.com/gulpjs/gulp
-.. _Webpack: https://webpack.js.org
 
 .. _AWS: https://aws.amazon.com/s3/
 .. _GCP: https://cloud.google.com/storage/

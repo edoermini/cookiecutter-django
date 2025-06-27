@@ -89,7 +89,6 @@ With that in mind, when merging changes, it's a good idea to set the labels and 
 
 #### Limitations
 
-- Dependabot updates for npm & Docker have a verbose title, try to rename them to be more readable: `Bump webpack-dev-server from 4.15.1 to 5.0.2 in /{{cookiecutter.project_slug}}` -> `Bump webpack-dev-server to 5.0.2`
 - ~~Dependencies updates for the template repo (tox, cookiecutter, etc...) don't need to appear in changelog, and need to be labelled as `project infrastructure` manually. By default, they come from PyUp labelled as `update`.~~
 
 ### Update contributors

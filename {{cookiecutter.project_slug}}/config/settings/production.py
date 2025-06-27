@@ -17,9 +17,7 @@ from .base import *  # noqa: F403
 from .base import DATABASES
 from .base import INSTALLED_APPS
 from .base import REDIS_URL
-{%- if cookiecutter.use_drf == "y" %}
 from .base import SPECTACULAR_SETTINGS
-{%- endif %}
 from .base import env
 
 # GENERAL
@@ -296,21 +294,6 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 ANYMAIL = {}
 {%- endif %}
 
-{% if cookiecutter.frontend_pipeline == 'Django Compressor' -%}
-# django-compressor
-# ------------------------------------------------------------------------------
-# https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_ENABLED
-COMPRESS_ENABLED = env.bool("COMPRESS_ENABLED", default=True)
-{%- if cookiecutter.cloud_provider == 'None' %}
-# https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_STORAGE
-COMPRESS_STORAGE = "compressor.storage.GzipCompressorFileStorage"
-{%- elif cookiecutter.cloud_provider in ('AWS', 'GCP', 'Azure') and cookiecutter.use_whitenoise == 'n' %}
-# https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_STORAGE
-COMPRESS_STORAGE = STORAGES["staticfiles"]["BACKEND"]
-{%- endif %}
-# https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_URL
-COMPRESS_URL = STATIC_URL{% if cookiecutter.use_whitenoise == 'y' or cookiecutter.cloud_provider == 'None' %}  # noqa: F405
-{%- endif -%}
 {%- if cookiecutter.use_whitenoise == 'y' %}
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_OFFLINE
 COMPRESS_OFFLINE = True  # Offline compression is required when using Whitenoise
@@ -323,7 +306,6 @@ COMPRESS_FILTERS = {
     ],
     "js": ["compressor.filters.jsmin.JSMinFilter"],
 }
-{% endif %}
 {%- if cookiecutter.use_whitenoise == 'n' and cookiecutter.cloud_provider in ('AWS', 'GCP') -%}
 # Collectfasta
 # ------------------------------------------------------------------------------
@@ -435,7 +417,6 @@ sentry_sdk.init(
     traces_sample_rate=env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.0),
 )
 {% endif %}
-{% if cookiecutter.use_drf == "y" -%}
 
 # django-rest-framework
 # -------------------------------------------------------------------------------
@@ -444,6 +425,5 @@ SPECTACULAR_SETTINGS["SERVERS"] = [
     {"url": "https://{{ cookiecutter.domain_name }}", "description": "Production server"},
 ]
 
-{%- endif %}
 # Your stuff...
 # ------------------------------------------------------------------------------

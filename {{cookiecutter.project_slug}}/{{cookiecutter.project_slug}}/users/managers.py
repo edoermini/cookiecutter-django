@@ -1,13 +1,13 @@
-from typing import TYPE_CHECKING
+from datetime import timedelta
 
+from django.conf import settings
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import UserManager as DjangoUserManager
+from django.contrib.auth.models import BaseUserManager
+from django.db.models import Manager
+from django.utils import timezone
 
-if TYPE_CHECKING:
-    from .models import User  # noqa: F401
 
-
-class UserManager(DjangoUserManager["User"]):
+class UserManager(BaseUserManager):
     """Custom manager for the User model."""
 
     def _create_user(self, email: str, password: str | None, **extra_fields):
@@ -40,3 +40,11 @@ class UserManager(DjangoUserManager["User"]):
             raise ValueError(msg)
 
         return self._create_user(email, password, **extra_fields)
+
+class UserTokenManager(Manager):
+    """Custom manager for UserToken model"""
+
+    def valid_tokens(self):
+        """Returns all the unused and not expired tokens"""
+        expiry_threshold = timezone.now() - timedelta(hours=settings.TOKEN_EXPIRY_HOURS)
+        return self.filter(used=False, created_at__gte=expiry_threshold)

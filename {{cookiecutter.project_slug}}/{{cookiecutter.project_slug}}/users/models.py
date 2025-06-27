@@ -1,19 +1,26 @@
-{%- if cookiecutter.username_type == "email" %}
+import uuid
 from typing import ClassVar
 
-{% endif -%}
 from django.contrib.auth.models import AbstractUser
+from django.db.models import CASCADE
+from django.db.models import BooleanField
 from django.db.models import CharField
-{%- if cookiecutter.username_type == "email" %}
+from django.db.models import DateTimeField
 from django.db.models import EmailField
-{%- endif %}
-from django.urls import reverse
+from django.db.models import ForeignKey
+from django.db.models import IntegerChoices
+from django.db.models import Model
+from django.db.models import PositiveSmallIntegerField
+from django.db.models import UUIDField
 from django.utils.translation import gettext_lazy as _
-{%- if cookiecutter.username_type == "email" %}
 
 from .managers import UserManager
-{%- endif %}
+from .managers import UserTokenManager
 
+
+class TokenTypes(IntegerChoices):
+    ACTIVATION = 0, "User Activation"
+    PASSWORD_RESET = 1, "Password Reset"
 
 class User(AbstractUser):
     """
@@ -26,25 +33,22 @@ class User(AbstractUser):
     name = CharField(_("Name of User"), blank=True, max_length=255)
     first_name = None  # type: ignore[assignment]
     last_name = None  # type: ignore[assignment]
-    {%- if cookiecutter.username_type == "email" %}
+
     email = EmailField(_("email address"), unique=True)
-    username = None  # type: ignore[assignment]
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects: ClassVar[UserManager] = UserManager()
-    {%- endif %}
 
-    def get_absolute_url(self) -> str:
-        """Get URL for user's detail view.
+class UserToken(Model):
+    user = ForeignKey(User, on_delete=CASCADE)
+    token = UUIDField(default=uuid.uuid4, unique=True)
+    token_type = PositiveSmallIntegerField(choices=TokenTypes.choices, null=False)
+    created_at = DateTimeField(auto_now_add=True)
+    used = BooleanField(default=False)
 
-        Returns:
-            str: URL for user detail.
+    objects: ClassVar[UserTokenManager] = UserTokenManager()
 
-        """
-        {%- if cookiecutter.username_type == "email" %}
-        return reverse("users:detail", kwargs={"pk": self.id})
-        {%- else %}
-        return reverse("users:detail", kwargs={"username": self.username})
-        {%- endif %}
+    def __str__(self):
+        return f"{self.user.email} - {self.token_type}"
