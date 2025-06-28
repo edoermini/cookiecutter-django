@@ -16,12 +16,18 @@ router = DefaultRouter() if settings.DEBUG else SimpleRouter()
 router.register("users", UserViewSet)
 
 urlpatterns = [
-    path('token/<int:app_id>/', CustomTokenObtainPairView.as_view(), name='token_obtain_app'),
-    path('refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
-    path('activation/request/', UserActivationRequestView.as_view(), name='activation-request'),
-    path('activation/confirm/', UserActivationConfirmView.as_view(), name='activation-confirm'),
-    path('reset-password/request/', UserPasswordResetRequestView.as_view(), name='password-reset-request'),
-    path('reset-password/confirm/', UserPasswordResetConfirmView.as_view(), name='password-reset-confirm'),
+    path("token/<int:app_id>/",
+         CustomTokenObtainPairView.as_view(), name="token_obtain_app"),
+    path("refresh/",
+         CustomTokenRefreshView.as_view(), name="token_refresh"),
+    path("activation/request/",
+         UserActivationRequestView.as_view(), name="activation-request"),
+    path("activation/confirm/",
+         UserActivationConfirmView.as_view(), name="activation-confirm"),
+    path("reset-password/request/",
+         UserPasswordResetRequestView.as_view(), name="password-reset-request"),
+    path("reset-password/confirm/",
+         UserPasswordResetConfirmView.as_view(), name="password-reset-confirm"),
 ]
 
 urlpatterns += router.urls

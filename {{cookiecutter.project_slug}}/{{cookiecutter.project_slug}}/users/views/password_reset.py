@@ -1,9 +1,14 @@
-from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
 
 from {{ cookiecutter.project_slug }}.users.models import User
+from {{ cookiecutter.project_slug }}.users.serializers.password_reset import (
+    UserPasswordResetConfirmSerializer,
+)
+from {{ cookiecutter.project_slug }}.users.serializers.password_reset import (
+    UserPasswordResetRequestSerializer,
+)
 from {{ cookiecutter.project_slug }}.users.services.password_reset import PasswordResetService
-from {{ cookiecutter.project_slug }}.users.serializers.password_reset import UserPasswordResetRequestSerializer, UserPasswordResetConfirmSerializer
 
 
 class UserPasswordResetRequestView(APIView):

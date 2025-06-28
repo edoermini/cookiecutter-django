@@ -1,8 +1,9 @@
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.views import TokenRefreshView
-from {{ cookiecutter.project_slug }}.users.serializers.token import CustomTokenObtainPairSerializer, CustomTokenRefreshSerializer
 
+from {{ cookiecutter.project_slug }}.users.serializers.token import CustomTokenObtainPairSerializer
+from {{ cookiecutter.project_slug }}.users.serializers.token import CustomTokenRefreshSerializer
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):

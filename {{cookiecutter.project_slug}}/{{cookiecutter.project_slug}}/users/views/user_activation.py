@@ -1,8 +1,15 @@
-from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
+
 from {{ cookiecutter.project_slug }}.users.models import User
-from {{ cookiecutter.project_slug }}.users.serializers.user_activation import UserActivationRequestSerializer, UserActivationConfirmSerializer
+from {{ cookiecutter.project_slug }}.users.serializers.user_activation import (
+    UserActivationConfirmSerializer,
+)
+from {{ cookiecutter.project_slug }}.users.serializers.user_activation import (
+    UserActivationRequestSerializer,
+)
 from {{ cookiecutter.project_slug }}.users.services.user_activation import UserActivationService
+
 
 class UserActivationRequestView(APIView):
     permission_classes = [AllowAny]

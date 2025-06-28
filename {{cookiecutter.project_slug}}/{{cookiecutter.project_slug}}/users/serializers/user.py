@@ -1,9 +1,11 @@
 from django.contrib.auth.models import Permission
 from django.contrib.auth.password_validation import validate_password
-
 from rest_framework import serializers
 
 from {{ cookiecutter.project_slug }}.users.models import User
+
+from .exceptions import UserAlreadyExistsError
+
 
 class UserSerializer(serializers.ModelSerializer[User]):
     password = serializers.CharField(
@@ -15,23 +17,23 @@ class UserSerializer(serializers.ModelSerializer[User]):
 
     class Meta:
         model = User
-        fields = ['id', 'last_login', 'is_superuser',
-                  'email', 'password', 'first_name', 'last_name', 
-                  'is_staff', 'is_active', 'date_joined',
-                  'groups', 'apps', 'permissions']
+        fields = ["id", "last_login", "is_superuser",
+                  "email", "password", "first_name", "last_name",
+                  "is_staff", "is_active", "date_joined",
+                  "groups", "apps", "permissions"]
 
     def get_permissions(self, obj):
         user_permissions = obj.user_permissions.all()
         group_permissions = Permission.objects.filter(group__user=obj)
 
         all_permissions = user_permissions | group_permissions
-        return all_permissions.values_list('codename', flat=True)
+        return all_permissions.values_list("codename", flat=True)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
 
         representation.update({
-            'permissions': [permission for permission in representation['permissions']],
+            "permissions": list(representation["permissions"]),
         })
 
         return representation
@@ -39,16 +41,16 @@ class UserSerializer(serializers.ModelSerializer[User]):
     def validate_email(self, value):
         """
         Check that the email is not already in use by another user.
-        Also check that the email (which will be used as username) is not already in use.
+        Also check that the email (which will be used as username)
+        is not already in use.
         """
-        user = self.context['request'].user
+        user = self.context["request"].user
 
         if User.objects.exclude(pk=user.pk).filter(email=value).exists():
-            raise serializers.ValidationError("This email is already in use.")
+            raise UserAlreadyExistsError
 
         if User.objects.exclude(pk=user.pk).filter(username=value).exists():
-            raise serializers.ValidationError(
-                "This email cannot be used as username because it's already taken.")
+            raise UserAlreadyExistsError
 
         return value
 
@@ -57,20 +59,20 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email')
+        fields = ("first_name", "last_name", "email")
 
     def validate_email(self, value):
         """
         Check that the email is not already in use by another user.
-        Also check that the email (which will be used as username) is not already in use.
+        Also check that the email (which will be used as username)
+        is not already in use.
         """
-        user = self.context['request'].user
+        user = self.context["request"].user
 
         if User.objects.exclude(pk=user.pk).filter(email=value).exists():
-            raise serializers.ValidationError("This email is already in use.")
+            raise UserAlreadyExistsError
 
         if User.objects.exclude(pk=user.pk).filter(username=value).exists():
-            raise serializers.ValidationError(
-                "This email cannot be used as username because it's already taken.")
+            raise UserAlreadyExistsError
 
         return value

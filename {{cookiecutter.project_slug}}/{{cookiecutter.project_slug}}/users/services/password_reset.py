@@ -1,7 +1,10 @@
 from django.db import transaction
 
+from {{ cookiecutter.project_slug }}.users.models import TokenTypes
+from {{ cookiecutter.project_slug }}.users.models import User
+from {{ cookiecutter.project_slug }}.users.models import UserToken
+
 from .user_token import UserTokenService
-from {{cookiecutter.project_slug}}.users.models import User, UserToken, TokenTypes
 
 
 class PasswordResetService(UserTokenService):
@@ -10,8 +13,8 @@ class PasswordResetService(UserTokenService):
 
     @transaction.atomic
     def request(self, user: User):
-        token = UserToken.objects.create(
-            user=user, 
+        UserToken.objects.create(
+            user=user,
             token_type=TokenTypes.PASSWORD_RESET.value,
         )
         # Send email
