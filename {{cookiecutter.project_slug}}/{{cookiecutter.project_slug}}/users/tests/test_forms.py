@@ -1,9 +1,11 @@
 """Module for all Form Tests."""
-
 from django.utils.translation import gettext_lazy as _
+import pytest
 
 from {{ cookiecutter.project_slug }}.users.forms import UserAdminCreationForm
 from {{ cookiecutter.project_slug }}.users.models import User
+
+from .factories import UserFactory
 
 
 class TestUserAdminCreationForm:
@@ -11,7 +13,11 @@ class TestUserAdminCreationForm:
     Test class for all tests related to the UserAdminCreationForm
     """
 
-    def test_username_validation_error_msg(self, user: User):
+    @pytest.fixture
+    def user(self, db):
+        return UserFactory()
+
+    def test_username_validation_error_msg(self, user: UserFactory):
         """
         Tests UserAdminCreation Form's unique validator functions correctly by testing:
             1) A new user with an existing username cannot be added.

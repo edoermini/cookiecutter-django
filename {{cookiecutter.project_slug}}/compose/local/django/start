@@ -6,6 +6,8 @@ set -o nounset
 
 
 python manage.py migrate
+python manage.py createsuperuser --noinput
+
 {%- if cookiecutter.use_async == 'y' %}
 exec uvicorn config.asgi:application --host 0.0.0.0 --reload --reload-include '*.html'
 {%- else %}

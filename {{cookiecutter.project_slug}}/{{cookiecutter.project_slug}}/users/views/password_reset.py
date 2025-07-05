@@ -1,4 +1,6 @@
+from rest_framework import status
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from {{ cookiecutter.project_slug }}.users.models import User
@@ -23,6 +25,10 @@ class UserPasswordResetRequestView(APIView):
 
             user_activation_service.request()
 
+            return Response(status=status.HTTP_200_OK)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
 class UserPasswordResetConfirmView(APIView):
     permission_classes = [AllowAny]
 
@@ -35,3 +41,7 @@ class UserPasswordResetConfirmView(APIView):
             )
 
             user_activation_service.perform()
+
+            return Response(status=status.HTTP_200_OK)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)

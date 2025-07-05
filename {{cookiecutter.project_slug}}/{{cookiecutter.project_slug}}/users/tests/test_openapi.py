@@ -1,7 +1,6 @@
-from http import HTTPStatus
-
-import pytest
 from django.urls import reverse
+from http import HTTPStatus
+import pytest
 
 
 def test_api_docs_accessible_by_admin(admin_client):

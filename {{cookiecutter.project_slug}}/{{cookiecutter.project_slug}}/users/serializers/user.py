@@ -48,10 +48,7 @@ class UserSerializer(serializers.ModelSerializer[User]):
 
         if User.objects.exclude(pk=user.pk).filter(email=value).exists():
             raise UserAlreadyExistsError
-
-        if User.objects.exclude(pk=user.pk).filter(username=value).exists():
-            raise UserAlreadyExistsError
-
+        
         return value
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -70,9 +67,6 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         user = self.context["request"].user
 
         if User.objects.exclude(pk=user.pk).filter(email=value).exists():
-            raise UserAlreadyExistsError
-
-        if User.objects.exclude(pk=user.pk).filter(username=value).exists():
             raise UserAlreadyExistsError
 
         return value

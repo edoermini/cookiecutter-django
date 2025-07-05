@@ -15,3 +15,11 @@ REDIS_URL=redis://redis:6379/0
 CELERY_FLOWER_USER=!!!SET CELERY_FLOWER_USER!!!
 CELERY_FLOWER_PASSWORD=!!!SET CELERY_FLOWER_PASSWORD!!!
 {%- endif %}
+
+{%- if cookiecutter.use_docker == 'y' %}
+DATABASE_URL=postgres://development:development1234!@postgres:5432/{{ cookiecutter.project_slug }}
+{% endif %}
+
+DJANGO_SUPERUSER_USERNAME=admin@admin.com
+DJANGO_SUPERUSER_EMAIL=admin@admin.com
+DJANGO_SUPERUSER_PASSWORD=admin1234!

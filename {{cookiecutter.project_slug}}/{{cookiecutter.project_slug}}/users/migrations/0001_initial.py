@@ -72,9 +72,15 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "name",
+                    "first_name",
                     models.CharField(
-                        blank=True, max_length=255, verbose_name="Name of User",
+                        blank=True, max_length=255, verbose_name="First name of User",
+                    ),
+                ),
+                (
+                    "last_name",
+                    models.CharField(
+                        blank=True, max_length=255, verbose_name="Last name of User",
                     ),
                 ),
                 (
