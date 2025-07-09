@@ -37,7 +37,7 @@ class UserPasswordResetConfirmSerializer(serializers.Serializer):
         try:
             user_token = UserToken.objects.get(
                 token=attrs["token"],
-                token_type=TokenTypes.ACTIVATION.value,
+                token_type=TokenTypes.PASSWORD_RESET.value,
                 used=False,
                 created_at__gte=now() - timedelta(hours=settings.TOKEN_EXPIRY_HOURS),
             )

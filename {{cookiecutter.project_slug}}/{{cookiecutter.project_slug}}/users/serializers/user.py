@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer[User]):
         fields = ["id", "last_login", "is_superuser",
                   "email", "password", "first_name", "last_name",
                   "is_staff", "is_active", "date_joined",
-                  "groups", "apps", "permissions"]
+                  "groups", "permissions"]
 
     def get_permissions(self, obj):
         user_permissions = obj.user_permissions.all()
@@ -48,7 +48,7 @@ class UserSerializer(serializers.ModelSerializer[User]):
 
         if User.objects.exclude(pk=user.pk).filter(email=value).exists():
             raise UserAlreadyExistsError
-        
+
         return value
 
 class UserUpdateSerializer(serializers.ModelSerializer):

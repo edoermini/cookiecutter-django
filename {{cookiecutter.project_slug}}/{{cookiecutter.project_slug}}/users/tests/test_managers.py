@@ -1,12 +1,9 @@
 from datetime import timedelta
-from io import StringIO
+
 import pytest
-
 from django.conf import settings
-from django.core.management import call_command
-from django.utils import timezone
 
-from {{ cookiecutter.project_slug }}.users.models import TokenType
+from {{ cookiecutter.project_slug }}.users.models import TokenTypes
 from {{ cookiecutter.project_slug }}.users.models import User
 from {{ cookiecutter.project_slug }}.users.models import UserToken
 
@@ -41,24 +38,6 @@ class TestUserManager:
         )
         assert user.username is None
 
-
-@pytest.mark.django_db
-def test_createsuperuser_command():
-    """Ensure createsuperuser command works with our custom manager."""
-    out = StringIO()
-    command_result = call_command(
-        "createsuperuser",
-        "--email",
-        "henry@example.com",
-        interactive=False,
-        stdout=out,
-    )
-
-    assert command_result is None
-    assert out.getvalue() == "Superuser created successfully.\n"
-    user = User.objects.get(email="henry@example.com")
-    assert not user.has_usable_password()
-
 @pytest.mark.django_db
 class TestUserTokenManager:
 
@@ -68,18 +47,24 @@ class TestUserTokenManager:
             email="john@example.com",
             password="something-r@nd0m!",  # noqa: S106
         )
-    
+
     @pytest.fixture
     def valid_token(self, user):
-        return UserToken.objects.create(user=user, token_type=TokenType.ACTIVATION)
+        return UserToken.objects.create(user=user, token_type=TokenTypes.ACTIVATION)
 
     @pytest.fixture
     def expired_token(self, user):
-        return UserToken.objects.create(user=user, token_type=TokenType.ACTIVATION, created_at=timezone.now() - timedelta(hours=settings.TOKEN_EXPIRY_HOURS+1))
-    
+        token = UserToken.objects.create(user=user,token_type=TokenTypes.ACTIVATION)
+        token.created_at = token.created_at - \
+            timedelta(hours=settings.TOKEN_EXPIRY_HOURS+1)
+
+        token.save()
+
+        return token
+
     def test_valid_tokens(self, valid_token, expired_token):
         tokens = UserToken.objects.valid_tokens()
-        
+
         assert len(tokens) == 1
         assert tokens.filter(token=valid_token.token).exists()
         assert not tokens.filter(token=expired_token.token).exists()

@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.db import transaction
 
+from _common.utils.email import send_email
 from {{ cookiecutter.project_slug }}.users.models import TokenTypes
 from {{ cookiecutter.project_slug }}.users.models import User
 from {{ cookiecutter.project_slug }}.users.models import UserToken
@@ -9,16 +11,23 @@ from .user_token import UserTokenService
 
 class PasswordResetService(UserTokenService):
     def __init__(self, *args, **kwargs):
-        super(PasswordResetService).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     @transaction.atomic
     def request(self, user: User):
-        UserToken.objects.create(
+        token = UserToken.objects.create(
             user=user,
             token_type=TokenTypes.PASSWORD_RESET.value,
         )
-        # Send email
-        # ... (you can inject or call email handlers here)
+
+        send_email(
+            subject="Account activation",
+            body=f"""
+            Click the link below to reset your password: \n
+            {settings.BASE_URL_FRONTEND}/password-reset?token={token.token}
+            """,
+            to=[user.email],
+        )
 
     @transaction.atomic
     def perform(self, password):
@@ -28,6 +37,11 @@ class PasswordResetService(UserTokenService):
         user.save()
         self.user_token.used = True
         self.user_token.save()
-        # Send email and register user
-        # ... (you can inject or call email handlers here)
+
+        send_email(
+            subject="Password changed successfully.",
+            body="Your password has been changed",
+            to=[user.email],
+        )
+
         return user

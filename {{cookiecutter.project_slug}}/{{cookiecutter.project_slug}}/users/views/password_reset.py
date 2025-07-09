@@ -19,11 +19,11 @@ class UserPasswordResetRequestView(APIView):
     def post(self, request):
         request_serializer = UserPasswordResetRequestSerializer(data=request.data)
         if request_serializer.is_valid():
-            user_activation_service = PasswordResetService(
-                user=User.objects.get(request_serializer.email),
-            )
+            user_activation_service = PasswordResetService()
 
-            user_activation_service.request()
+            user_activation_service.request(
+                user=User.objects.get(email=request_serializer.validated_data["email"]),
+            )
 
             return Response(status=status.HTTP_200_OK)
 
@@ -36,11 +36,12 @@ class UserPasswordResetConfirmView(APIView):
         request_serializer = UserPasswordResetConfirmSerializer(data=request.data)
         if request_serializer.is_valid():
             user_activation_service = PasswordResetService(
-                user=User.objects.get(request_serializer.email),
-                user_token=request_serializer.user_token,
+                user_token=request_serializer.validated_data["user_token"],
             )
 
-            user_activation_service.perform()
+            user_activation_service.perform(
+                request_serializer.validated_data["password"],
+            )
 
             return Response(status=status.HTTP_200_OK)
 

@@ -19,12 +19,12 @@ class UserActivationRequestView(APIView):
     def post(self, request):
         request_serializer = UserActivationRequestSerializer(data=request.data)
         if request_serializer.is_valid():
-            user_activation_service = UserActivationService(
-                user=User.objects.get(request_serializer.email),
+            user_activation_service = UserActivationService()
+
+            user_activation_service.request(
+                user=User.objects.get(email=request_serializer.validated_data["email"]),
             )
 
-            user_activation_service.request()
-        
             return Response(status=status.HTTP_200_OK)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -36,11 +36,12 @@ class UserActivationConfirmView(APIView):
         request_serializer = UserActivationConfirmSerializer(data=request.data)
         if request_serializer.is_valid():
             user_activation_service = UserActivationService(
-                user=User.objects.get(request_serializer.email),
-                user_token=request_serializer.user_token,
+                user_token=request_serializer.validated_data["user_token"],
             )
 
-            user_activation_service.perform()
+            user_activation_service.perform(
+                request_serializer.validated_data["password"],
+            )
 
             return Response(status=status.HTTP_200_OK)
 

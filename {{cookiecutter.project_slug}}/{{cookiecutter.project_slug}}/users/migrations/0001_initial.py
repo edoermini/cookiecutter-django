@@ -1,3 +1,5 @@
+import uuid
+
 import django.contrib.auth.models
 import django.contrib.auth.validators
 import django.utils.timezone
@@ -114,5 +116,35 @@ class Migration(migrations.Migration):
             managers=[
                 ("objects", {{cookiecutter.project_slug}}.users.models.UserManager()),
             ],
+        ),
+        migrations.CreateModel(
+            name="UserToken",
+            fields=[
+                (
+                    'id', 
+                    models.BigAutoField(
+                        auto_created=True, 
+                        primary_key=True, 
+                        serialize=False, 
+                        verbose_name='ID',
+                    ),
+                ),
+                ('token', models.UUIDField(default=uuid.uuid4, unique=True)),
+                (
+                    'token_type', 
+                    models.PositiveSmallIntegerField(
+                        choices=[(0, 'User Activation'), (1, 'Password Reset')]
+                    ),
+                ),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('used', models.BooleanField(default=False)),
+                (
+                    'user', 
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, 
+                        to='users.User',
+                    ),
+                ),
+            ]
         ),
     ]

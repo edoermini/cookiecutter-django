@@ -26,7 +26,7 @@ if settings.DEBUG:
 # API URLS
 urlpatterns += [
     path(settings.ADMIN_URL, admin.site.urls),
-    
+
     # API base url
     path("api/", include("config.api_router")),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
