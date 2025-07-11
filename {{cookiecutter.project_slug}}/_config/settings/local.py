@@ -79,9 +79,10 @@ if env("USE_DOCKER") == "yes":
     {%- if cookiecutter.windows == 'y' %}
     # RunServerPlus
     # ------------------------------------------------------------------------------
-    # This is a custom setting for RunServerPlus to fix reloader issue in Windows docker environment
+    # This is a custom setting for RunServerPlus to fix reloader issue
+    # in Windows docker environment
     # Werkzeug reloader type [auto, watchdog, or stat]
-    RUNSERVERPLUS_POLLER_RELOADER_TYPE = 'stat'
+    RUNSERVERPLUS_POLLER_RELOADER_TYPE = "stat"
     # If you have CPU and IO load issues, you can increase this poller interval e.g) 5
     RUNSERVERPLUS_POLLER_RELOADER_INTERVAL = 1
     {%- endif %}

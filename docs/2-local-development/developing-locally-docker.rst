@@ -88,7 +88,7 @@ Also, please note that the ``docker exec`` does not work for running management 
 (Optionally) Designate your Docker Development Server IP
 --------------------------------------------------------
 
-When ``DEBUG`` is set to ``True``, the host is validated against ``['localhost', '127.0.0.1', '[::1]']``. This is adequate when running a ``virtualenv``. For Docker, in the ``config.settings.local``, add your host development server IP to ``INTERNAL_IPS`` or ``ALLOWED_HOSTS`` if the variable exists.
+When ``DEBUG`` is set to ``True``, the host is validated against ``['localhost', '127.0.0.1', '[::1]']``. This is adequate when running a ``virtualenv``. For Docker, in the ``_config.settings.local``, add your host development server IP to ``INTERNAL_IPS`` or ``ALLOWED_HOSTS`` if the variable exists.
 
 .. _envs:
 
@@ -212,7 +212,7 @@ Celery tasks in local development
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 When not using docker Celery tasks are set to run in Eager mode, so that a full stack is not needed. When using docker the task scheduler will be used by default.
 
-If you need tasks to be executed on the main thread during development set ``CELERY_TASK_ALWAYS_EAGER = True`` in ``config/settings/local.py``.
+If you need tasks to be executed on the main thread during development set ``CELERY_TASK_ALWAYS_EAGER = True`` in ``_config/settings/local.py``.
 
 Possible uses could be for testing, or ease of profiling with DJDT.
 

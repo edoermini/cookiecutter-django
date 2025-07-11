@@ -16,7 +16,8 @@
   "timezone": "UTC",
   "windows": "n",
   "editor": ["None", "PyCharm", "VS Code"],
-  "use_docker": "n",
+  "use_docker": "y",
+  "use_ai": "n",
   "postgresql_version": ["17", "16", "15", "14", "13"],
   "cloud_provider": ["AWS", "GCP", "Azure", "None"],
   "mail_service": [
@@ -34,7 +35,7 @@
   "use_celery": "n",
   "use_mailpit": "n",
   "use_sentry": "n",
-  "use_whitenoise": "n",
+  "use_whitenoise": "y",
   "use_heroku": "n",
   "ci_tool": ["None", "Travis", "Gitlab", "Github", "Drone"],
   "keep_local_envs_in_vcs": "y",

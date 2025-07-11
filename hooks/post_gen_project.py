@@ -1,4 +1,3 @@
-import json
 import random
 import shutil
 import string
@@ -19,6 +18,14 @@ HINT = "\x1b[3;33m"
 SUCCESS = "\x1b[1;32m [SUCCESS]: "
 
 DEBUG_VALUE = "debug"
+
+
+def _remove_paths(paths: list[Path]):
+    for file_path in paths:
+        if file_path.is_dir():
+            file_path.rmdir()
+        else:
+            file_path.unlink(missing_ok=True)
 
 
 def remove_open_source_files():
@@ -104,21 +111,27 @@ def remove_prettier_pre_commit():
 
 def remove_celery_files():
     file_paths = [
-        Path("config", "celery_app.py"),
-        Path("{{ cookiecutter.project_slug }}", "users", "tasks.py"),
+        Path("_config", "celery_app.py"),
+        Path("_common", "tasks.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "tasks", "tasks.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "tasks", "ai_tasks.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "tasks", "__init__.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "tasks"),
         Path("{{ cookiecutter.project_slug }}", "users", "tests", "test_tasks.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "pydantic_models.py"),
+        Path("tests", "test_tasks.py"),
     ]
-    for file_path in file_paths:
-        file_path.unlink()
+
+    _remove_paths(file_paths)
 
 
 def remove_async_files():
     file_paths = [
-        Path("config", "asgi.py"),
-        Path("config", "websocket.py"),
+        Path("_config", "asgi.py"),
+        Path("_config", "websocket.py"),
     ]
-    for file_path in file_paths:
-        file_path.unlink()
+
+    _remove_paths(file_paths)
 
 
 def remove_dottravisyml_file():
@@ -135,6 +148,17 @@ def remove_dotgithub_folder():
 
 def remove_dotdrone_file():
     Path(".drone.yml").unlink()
+
+def remove_ai():
+    file_paths = [
+        Path("_common", "ai", "__init__.py"),
+        Path("_common", "ai", "openai.py"),
+        Path("_common", "ai"),
+        Path("{{ cookiecutter.project_slug }}", "users", "tasks", "ai_tasks.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "pydantic_models.py"),
+    ]
+
+    _remove_paths(file_paths)
 
 
 def generate_random_string(length, using_digits=False, using_ascii_letters=False, using_punctuation=False):
@@ -274,8 +298,8 @@ def set_flags_in_envs(postgres_user, celery_flower_user, debug=False):
 
 
 def set_flags_in_settings_files():
-    set_django_secret_key(Path("config", "settings", "local.py"))
-    set_django_secret_key(Path("config", "settings", "test.py"))
+    set_django_secret_key(Path("_config", "settings", "local.py"))
+    set_django_secret_key(Path("_config", "settings", "test.py"))
 
 
 def remove_envs_and_associated_files():
@@ -320,6 +344,9 @@ def main():
 
     if "{{ cookiecutter.use_docker }}".lower() == "y" and "{{ cookiecutter.cloud_provider}}" != "AWS":
         remove_aws_dockerfile()
+    
+    if "{{ cookiecutter.use_ai }}".lower() == "n":
+        remove_ai()
 
     if "{{ cookiecutter.use_heroku }}".lower() == "n":
         remove_heroku_files()

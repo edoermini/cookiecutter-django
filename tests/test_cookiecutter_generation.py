@@ -387,6 +387,18 @@ def test_pycharm_docs_removed(cookies, context, editor, pycharm_docs_exist):
     has_pycharm_docs = "pycharm/configuration" in index_rst.read_text()
     assert has_pycharm_docs is pycharm_docs_exist
 
+def test_ai_files_removed(cookies, context):
+    context.update({"use_ai": "n"})
+    result = cookies.bake(extra_context=context)
+
+    paths = [
+        result.project_path / "_common" / "ai",
+        result.project_path / context["project_slug"] / "users" / "tasks" / "ai_tasks.py",
+        result.project_path / context["project_slug"] / "users" / "pydantic_models.py",
+    ]
+
+    assert all([ not path.exists() for path in paths])
+
 
 def test_trim_domain_email(cookies, context):
     """Check that leading and trailing spaces are trimmed in domain and email."""
@@ -404,5 +416,5 @@ def test_trim_domain_email(cookies, context):
     prod_django_env = result.project_path / ".envs" / ".production" / ".django"
     assert "DJANGO_ALLOWED_HOSTS=.example.com" in prod_django_env.read_text()
 
-    base_settings = result.project_path / "config" / "settings" / "base.py"
+    base_settings = result.project_path / "_config" / "settings" / "base.py"
     assert '"me@example.com"' in base_settings.read_text()

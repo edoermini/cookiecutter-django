@@ -1,15 +1,23 @@
 # General
 # ------------------------------------------------------------------------------
 # DJANGO_READ_DOT_ENV_FILE=True
-DJANGO_SETTINGS_MODULE=config.settings.production
+DJANGO_SETTINGS_MODULE=_config.settings.production
 DJANGO_SECRET_KEY=!!!SET DJANGO_SECRET_KEY!!!
 DJANGO_ADMIN_URL=!!!SET DJANGO_ADMIN_URL!!!
 DJANGO_ALLOWED_HOSTS=.{{ cookiecutter.domain_name }}
+
+TOKEN_EXPIRY_HOURS=24
 
 # Security
 # ------------------------------------------------------------------------------
 # TIP: better off using DNS, however, redirect is OK too
 DJANGO_SECURE_SSL_REDIRECT=False
+
+{% if cookiecutter.use_ai == 'y' -%}
+# openai
+# ------------------------------------------------------------------------------
+OPENAI_API_KEY=!!!SET OPENAI API KEY!!!
+{%- endif %}
 
 # Email
 # ------------------------------------------------------------------------------

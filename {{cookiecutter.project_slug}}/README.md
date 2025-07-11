@@ -54,7 +54,7 @@ To run a celery worker:
 
 ```bash
 cd {{cookiecutter.project_slug}}
-celery -A config.celery_app worker -l info
+celery -A _config.celery_app worker -l info
 ```
 
 Please note: For Celery's import magic to work, it is important _where_ the celery commands are run. If you are in the same folder with _manage.py_, you should be right.
@@ -63,14 +63,14 @@ To run [periodic tasks](https://docs.celeryq.dev/en/stable/userguide/periodic-ta
 
 ```bash
 cd {{cookiecutter.project_slug}}
-celery -A config.celery_app beat
+celery -A _config.celery_app beat
 ```
 
 or you can embed the beat service inside a worker with the `-B` option (not recommended for production use):
 
 ```bash
 cd {{cookiecutter.project_slug}}
-celery -A config.celery_app worker -B -l info
+celery -A _config.celery_app worker -B -l info
 ```
 
 {%- endif %}

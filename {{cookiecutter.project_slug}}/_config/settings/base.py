@@ -65,9 +65,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # URLS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
-ROOT_URLCONF = "config.urls"
+ROOT_URLCONF = "_config.urls"
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = "config.wsgi.application"
+WSGI_APPLICATION = "_config.wsgi.application"
 
 # APPS
 # ------------------------------------------------------------------------------
@@ -92,6 +92,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
+    "django_filters",
 ]
 
 LOCAL_APPS = [
@@ -325,6 +326,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
@@ -340,9 +342,15 @@ SPECTACULAR_SETTINGS = {
     "SCHEMA_PATH_PREFIX": "/api/",
 }
 
+{% if cookiecutter.use_ai == 'y' -%}
+# openai
+# ------------------------------------------------------------------------------
+OPENAI_API_KEY=env.str("OPENAI_API_KEY")
+{%- endif %}
+
 # user activation and password reset tokens duration
 # ------------------------------------------------------------------------------
-TOKEN_EXPIRY_HOURS=24
+TOKEN_EXPIRY_HOURS=env.int("TOKEN_EXPIRY_HOURS", 24)
 
 BASE_URL_FRONTEND=env.url("BASE_URL_FRONTEND", "http://127.0.0.1:8080").geturl()
 

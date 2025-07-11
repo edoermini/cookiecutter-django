@@ -2,6 +2,13 @@
 # ------------------------------------------------------------------------------
 USE_DOCKER=yes
 IPYTHONDIR=/app/.ipython
+TOKEN_EXPIRY_HOURS=24
+
+{% if cookiecutter.use_ai == 'y' -%}
+# openai
+# ------------------------------------------------------------------------------
+OPENAI_API_KEY=!!!SET OPENAI API KEY!!!
+{%- endif %}
 
 {%- if cookiecutter.use_celery == 'y' %}
 # Redis
@@ -15,10 +22,6 @@ REDIS_URL=redis://redis:6379/0
 CELERY_FLOWER_USER=!!!SET CELERY_FLOWER_USER!!!
 CELERY_FLOWER_PASSWORD=!!!SET CELERY_FLOWER_PASSWORD!!!
 {%- endif %}
-
-{%- if cookiecutter.use_docker == 'y' %}
-DATABASE_URL=postgres://development:development1234!@postgres:5432/{{ cookiecutter.project_slug }}
-{% endif %}
 
 DJANGO_SUPERUSER_USERNAME=admin@admin.com
 DJANGO_SUPERUSER_EMAIL=admin@admin.com

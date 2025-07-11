@@ -79,7 +79,7 @@ First things first.
 
    or if you're running asynchronously: ::
 
-    $ uvicorn config.asgi:application --host 0.0.0.0 --reload --reload-include '*.html'
+    $ uvicorn _config.asgi:application --host 0.0.0.0 --reload --reload-include '*.html'
 
 .. _PostgreSQL: https://www.postgresql.org/download/
 .. _Redis: https://redis.io/download
@@ -103,7 +103,7 @@ After setting up your environment, you're ready to add your first app. This proj
 The project layout looks something like this: ::
 
     <repository_root>/
-    ├── config/
+    ├── _config/
     │   ├── settings/
     │   │   ├── __init__.py
     │   │   ├── base.py
@@ -142,7 +142,7 @@ Following this structured approach, here's how to add a new app:
 
 #. **Edit the app's apps.py** change ``name = '<name-of-the-app>'`` to ``name = '<django_project_root>.<name-of-the-app>'``.
 
-#. **Register the new app** by adding it to the ``LOCAL_APPS`` list in ``config/settings/base.py``, integrating it as an official component of your project.
+#. **Register the new app** by adding it to the ``LOCAL_APPS`` list in ``_config/settings/base.py``, integrating it as an official component of your project.
 
 
 
@@ -191,7 +191,7 @@ In production, we have Mailgun_ configured to have your back!
 Celery
 ------
 
-If the project is configured to use Celery as a task scheduler then, by default, tasks are set to run on the main thread when developing locally instead of getting sent to a broker. However, if you have Redis setup on your local machine, you can set the following in ``config/settings/local.py``::
+If the project is configured to use Celery as a task scheduler then, by default, tasks are set to run on the main thread when developing locally instead of getting sent to a broker. However, if you have Redis setup on your local machine, you can set the following in ``_config/settings/local.py``::
 
     CELERY_TASK_ALWAYS_EAGER = False
 
@@ -201,7 +201,7 @@ Next, make sure `redis-server` is installed (per the `Getting started with Redis
 
 Start the Celery worker by running the following command in another terminal::
 
-    $ celery -A config.celery_app worker --loglevel=info
+    $ celery -A _config.celery_app worker --loglevel=info
 
 That Celery worker should be running whenever your app is running, typically as a background process,
 so that it can pick up any tasks that get queued. Learn more from the `Celery Workers Guide`_.

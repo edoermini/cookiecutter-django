@@ -63,7 +63,7 @@ Add these exports
 .. code-block:: bash
 
     export WEB_CONCURRENCY=4
-    export DJANGO_SETTINGS_MODULE='config.settings.production'
+    export DJANGO_SETTINGS_MODULE='_config.settings.production'
     export DJANGO_SECRET_KEY='<secret key goes here>'
     export DJANGO_ALLOWED_HOSTS='<www.your-domain.com>'
     export DJANGO_ADMIN_URL='<not admin/>'
@@ -143,7 +143,7 @@ Click through to the **WSGI configuration file** link (near the top) and edit th
     if path not in sys.path:
         sys.path.append(path)
 
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.production'
+    os.environ['DJANGO_SETTINGS_MODULE'] = '_config.settings.production'
     os.environ['DJANGO_SECRET_KEY'] = '<as above>'
     os.environ['DJANGO_ALLOWED_HOSTS'] = '<as above>'
     os.environ['DJANGO_ADMIN_URL'] = '<as above>'

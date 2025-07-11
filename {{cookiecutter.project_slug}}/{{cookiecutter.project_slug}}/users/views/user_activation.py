@@ -39,7 +39,7 @@ class UserActivationConfirmView(APIView):
                 user_token=request_serializer.validated_data["user_token"],
             )
 
-            user_activation_service.perform(
+            user_activation_service.confirm(
                 request_serializer.validated_data["password"],
             )
 

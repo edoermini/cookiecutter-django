@@ -30,7 +30,7 @@ class PasswordResetService(UserTokenService):
         )
 
     @transaction.atomic
-    def perform(self, password):
+    def confirm(self, password):
         self._check_validity()
         user = self.user_token.user
         user.set_password(password)

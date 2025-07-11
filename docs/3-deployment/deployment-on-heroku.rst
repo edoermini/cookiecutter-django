@@ -26,7 +26,7 @@ Run these commands to deploy the project to Heroku:
     heroku addons:create mailgun:starter
 
     heroku config:set DJANGO_DEBUG=False
-    heroku config:set DJANGO_SETTINGS_MODULE=config.settings.production
+    heroku config:set DJANGO_SETTINGS_MODULE=_config.settings.production
     heroku config:set DJANGO_SECRET_KEY="$(openssl rand -base64 64)"
 
     # Generating a 32 character-long random string without any of the visually similar characters "IOl01":
