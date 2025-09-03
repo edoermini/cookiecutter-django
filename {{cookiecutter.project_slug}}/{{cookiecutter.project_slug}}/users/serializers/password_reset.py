@@ -4,9 +4,9 @@ from django.conf import settings
 from django.utils.timezone import now
 from rest_framework import serializers
 
-from {{ cookiecutter.project_slug }}.users.models import TokenTypes
 from {{ cookiecutter.project_slug }}.users.models import User
 from {{ cookiecutter.project_slug }}.users.models import UserToken
+from {{ cookiecutter.project_slug }}.users.models.enums import TokenTypes
 
 from .exceptions import InvalidTokenError
 from .exceptions import UserDoesNotExistError
@@ -37,7 +37,7 @@ class UserPasswordResetConfirmSerializer(serializers.Serializer):
         try:
             user_token = UserToken.objects.get(
                 token=attrs["token"],
-                token_type=TokenTypes.PASSWORD_RESET.value,
+                token_type=TokenTypes.PASSWORD_RESET,
                 used=False,
                 created_at__gte=now() - timedelta(hours=settings.TOKEN_EXPIRY_HOURS),
             )

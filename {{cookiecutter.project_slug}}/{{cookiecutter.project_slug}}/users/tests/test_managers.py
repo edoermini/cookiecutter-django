@@ -3,9 +3,9 @@ from datetime import timedelta
 import pytest
 from django.conf import settings
 
-from {{ cookiecutter.project_slug }}.users.models import TokenTypes
 from {{ cookiecutter.project_slug }}.users.models import User
 from {{ cookiecutter.project_slug }}.users.models import UserToken
+from {{ cookiecutter.project_slug }}.users.models.enums import TokenTypes
 
 
 @pytest.mark.django_db

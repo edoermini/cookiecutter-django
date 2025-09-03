@@ -394,7 +394,7 @@ def test_ai_files_removed(cookies, context):
     paths = [
         result.project_path / "_common" / "ai",
         result.project_path / context["project_slug"] / "users" / "tasks" / "ai_tasks.py",
-        result.project_path / context["project_slug"] / "users" / "pydantic_models.py",
+        result.project_path / context["project_slug"] / "users" / "pydantic_models",
     ]
 
     assert all([ not path.exists() for path in paths])

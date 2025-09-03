@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class UserNameDempgraphicAnalysisResponseModel(BaseModel):
+class UserNameDemographicAnalysisResponseModel(BaseModel):
     name_popularity: float
     surname_popularity: float
     males_name_popularity: float

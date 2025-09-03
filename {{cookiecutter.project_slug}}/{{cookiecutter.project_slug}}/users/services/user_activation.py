@@ -2,9 +2,9 @@ from django.conf import settings
 from django.db import transaction
 
 from _common.utils.email import send_email
-from {{ cookiecutter.project_slug }}.users.models import TokenTypes
 from {{ cookiecutter.project_slug }}.users.models import User
 from {{ cookiecutter.project_slug }}.users.models import UserToken
+from {{ cookiecutter.project_slug }}.users.models.enums import TokenTypes
 
 from .user_token import UserTokenService
 
@@ -17,7 +17,7 @@ class UserActivationService(UserTokenService):
     def request(self, user: User):
         token = UserToken.objects.create(
             user=user,
-            token_type=TokenTypes.ACTIVATION.value,
+            token_type=TokenTypes.ACTIVATION,
         )
 
         send_email(

@@ -118,7 +118,9 @@ def remove_celery_files():
         Path("{{ cookiecutter.project_slug }}", "users", "tasks", "__init__.py"),
         Path("{{ cookiecutter.project_slug }}", "users", "tasks"),
         Path("{{ cookiecutter.project_slug }}", "users", "tests", "test_tasks.py"),
-        Path("{{ cookiecutter.project_slug }}", "users", "pydantic_models.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "pydantic_models", "username_demographic_analisys_response_model.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "pydantic_models", "__init__.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "pydantic_models"),
         Path("tests", "test_tasks.py"),
     ]
 
@@ -155,7 +157,9 @@ def remove_ai():
         Path("_common", "ai", "openai.py"),
         Path("_common", "ai"),
         Path("{{ cookiecutter.project_slug }}", "users", "tasks", "ai_tasks.py"),
-        Path("{{ cookiecutter.project_slug }}", "users", "pydantic_models.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "pydantic_models", "username_demographic_analisys_response_model.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "pydantic_models", "__init__.py"),
+        Path("{{ cookiecutter.project_slug }}", "users", "pydantic_models"),
     ]
 
     _remove_paths(file_paths)

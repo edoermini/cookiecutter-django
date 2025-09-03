@@ -114,7 +114,7 @@ class Migration(migrations.Migration):
                 "abstract": False,
             },
             managers=[
-                ("objects", {{cookiecutter.project_slug}}.users.models.UserManager()),
+                ("objects", {{cookiecutter.project_slug}}.users.managers.UserManager()),
             ],
         ),
         migrations.CreateModel(
